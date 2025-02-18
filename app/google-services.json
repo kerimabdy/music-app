@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "360890938330",
+    "project_id": "my-awersome-music-player",
+    "storage_bucket": "my-awersome-music-player.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:360890938330:android:e52276c04eb7c09ac386e3",
+        "android_client_info": {
+          "package_name": "tm.app.musicplayer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAto6NFdsM-Zu_ar6meZSDv7a9UwYUsorA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
