@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -5,6 +8,16 @@ plugins {
     alias(libs.plugins.google.gms.google.services)
     kotlin("plugin.serialization") version "2.0.0"
 }
+
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystoreProperties = Properties()
+
+if (keystorePropertiesFile.exists()) {
+    FileInputStream(keystorePropertiesFile).use { keystoreProperties.load(it) }
+}
+val supabaseAnonKey = keystoreProperties.getProperty("SUPABASE_ANON_KEY") ?: ""
+val supabaseURL = keystoreProperties.getProperty("SUPABASE_URL") ?: ""
+
 
 android {
     namespace = "tm.app.musicplayer"
@@ -18,6 +31,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "SUPABASE_ANON_KEY", "\"${keystoreProperties["SUPABASE_ANON_KEY"]}\"")
+        buildConfigField("String", "SUPABASE_URL", "\"${keystoreProperties["SUPABASE_URL"]}\"")
+
     }
 
     buildTypes {
@@ -38,6 +54,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -65,7 +82,17 @@ dependencies {
     implementation(libs.androidx.media3.exoplayer.dash)
     implementation(libs.androidx.media3.ui)
 
-    implementation(libs.bom)
-    implementation(libs.postgrest.kt)
+
+    implementation(platform("io.github.jan-tennert.supabase:bom:3.1.1"))
+    implementation("io.github.jan-tennert.supabase:postgrest-kt")
+    implementation(libs.storage.kt)
+
+
     implementation(libs.ktor.client.android)
+    implementation(libs.ktor.client.core)
+    runtimeOnly(libs.ktor.utils)
+
+
+    // Koin for Dependency Injection
+    implementation(libs.koin.android)
 }
