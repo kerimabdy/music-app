@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import tm.app.musicplayer.domain.music.model.Music
-import tm.app.musicplayer.domain.music.useCases.GetMusicUseCase
+import tm.app.musicplayer.domain.music.useCases.GetAllMusicsUseCase
 
 class BrowseMusicViewModel(
-    private val getPostUseCase: GetMusicUseCase
+    private val getPostUseCase: GetAllMusicsUseCase
 ): ViewModel() {
     private val _state = MutableStateFlow(MusicState())
     val state = _state.asStateFlow()

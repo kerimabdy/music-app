@@ -8,7 +8,7 @@ import tm.app.musicplayer.data.remote.dto.MusicResponse
 class MusicServiceImpl(
     private val postgrest: Postgrest
 ): MusicService {
-    override suspend fun getMusic(): List<MusicResponse> {
+    override suspend fun getAllMusics(): List<MusicResponse> {
         return withContext(Dispatchers.IO) {
             val result = postgrest.from(SupabaseTables.SONGS).select().decodeList<MusicResponse>()
             result
