@@ -1,4 +1,5 @@
 import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.postgrest
@@ -12,6 +13,7 @@ fun ProvideSupabaseClient(): SupabaseClient {
         supabaseKey = BuildConfig.SUPABASE_ANON_KEY
     ) {
         install(Postgrest)
+        install(Auth)
         install(Storage)
     }
 }
