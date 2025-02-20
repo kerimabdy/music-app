@@ -85,12 +85,15 @@ dependencies {
 
     implementation(platform("io.github.jan-tennert.supabase:bom:3.1.1"))
     implementation("io.github.jan-tennert.supabase:postgrest-kt")
+    implementation("io.github.jan-tennert.supabase:auth-kt")
     implementation(libs.storage.kt)
 
 
-    implementation(libs.ktor.client.android)
     implementation(libs.ktor.client.core)
     runtimeOnly(libs.ktor.utils)
+    implementation(libs.logging.interceptor)
+    implementation(libs.ktor.client.okhttp)
+    implementation(libs.ktor.client.logging)
 
 
     // Koin for Dependency Injection
