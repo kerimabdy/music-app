@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -46,7 +47,6 @@ fun HomeScreen(
                     .windowInsetsTopHeight(WindowInsets.statusBars)
             )
             HomeAppBar(
-                backgroundColor = appBarColor,
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -89,14 +89,14 @@ fun HomeScreen(
                                     .align(Alignment.TopCenter),
                                 contentPadding = PaddingValues(bottom = 60.dp)
                             ) {
-                                items(musics) {
+                                itemsIndexed(musics) { index, music ->
 
                                     MusicItem(
                                         onClick = {
-                                            onEvent(HomeEvent.OnMusicSelected(it))
-                                            onEvent(HomeEvent.PlayMusic)
+                                            onEvent(HomeEvent.OnMusicSelected(music))
+                                            onEvent(HomeEvent.PlayMusic(index))
                                         },
-                                        music = it
+                                        music = music
                                     )
                                 }
                             }

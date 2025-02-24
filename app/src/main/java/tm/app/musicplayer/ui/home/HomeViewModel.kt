@@ -34,7 +34,7 @@ class HomeViewModel(
     fun onEvent(event: HomeEvent) {
         when (event) {
             HomeEvent.FetchMusic -> getMusic()
-            HomeEvent.PlayMusic -> playMusic()
+            is HomeEvent.PlayMusic -> playMusic(event.musicId)
             is HomeEvent.OnMusicSelected -> onMusicSelected(event.selectedMusic)
             HomeEvent.PauseMusic -> pauseMusic()
             HomeEvent.ResumeMusic -> resumeMusic()
@@ -77,12 +77,12 @@ class HomeViewModel(
         }
     }
 
-    private fun playMusic() {
+    private fun playMusic(musicId: Int) {
 //        homeUiState. {
 //            musics?.indexOf(selectedMusic)?.let { music ->
 //            }
 //        }
-        playMusicUseCase(1)
+        playMusicUseCase(musicId)
 
     }
 

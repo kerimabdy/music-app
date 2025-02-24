@@ -58,7 +58,7 @@ fun MusicPlayerNavHost(navController: NavHostController, sharedViewModel: Shared
                 .align(Alignment.BottomCenter),
             onEvent = mainViewModel::onEvent,
             playerState = musicControllerUiState.playerState,
-            music = musicControllerUiState.currentMusic,
+            uiState = mainViewModel.homeUiState,
             onBarClick = {}
         )
     }
