@@ -25,7 +25,7 @@ android {
 
     defaultConfig {
         applicationId = "tm.app.musicplayer"
-        minSdk = 24
+        minSdk = 25
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -68,6 +68,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -79,6 +81,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
 
     implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.session)        // MediaSession
     implementation(libs.androidx.media3.exoplayer.dash)
     implementation(libs.androidx.media3.ui)
 
@@ -99,5 +102,9 @@ dependencies {
     // Koin for Dependency Injection
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
+
     implementation(libs.koin.androidx.compose.navigation)
+
+    implementation("io.coil-kt.coil3:coil-compose:3.1.0")
+
 }
