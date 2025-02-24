@@ -1,29 +1,44 @@
 package tm.app.musicplayer.di
 
-import ProvideSupabaseClient
-import ProvideSupabaseDatabase
-import ProvideSupabaseStorage
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
-import tm.app.musicplayer.data.remote.MusicService
-import tm.app.musicplayer.data.remote.MusicServiceImpl
 import tm.app.musicplayer.data.repository.MusicRepositoryImpl
-import tm.app.musicplayer.domain.music.repository.MusicRepository
-import tm.app.musicplayer.domain.music.useCases.GetMusicUseCase
-import tm.app.musicplayer.presentation.browseMusic.BrowseMusicViewModel
+import tm.app.musicplayer.data.service.MusicControllerImpl
+import tm.app.musicplayer.domain.repository.MusicRepository
+import tm.app.musicplayer.domain.service.MusicController
+import tm.app.musicplayer.domain.useCase.AddMediaItemsUseCase
+import tm.app.musicplayer.domain.useCase.DestroyMediaControllerUseCase
+import tm.app.musicplayer.domain.useCase.GetAllMusicsUseCase
+import tm.app.musicplayer.domain.useCase.GetCurrentMusicPositionUseCase
+import tm.app.musicplayer.domain.useCase.PauseMusicUseCase
+import tm.app.musicplayer.domain.useCase.PlayMusicUseCase
+import tm.app.musicplayer.domain.useCase.ResumeMusicUseCase
+import tm.app.musicplayer.domain.useCase.SeekMusicToPositionUseCase
+import tm.app.musicplayer.domain.useCase.SetMediaControllerCallbackUseCase
+import tm.app.musicplayer.domain.useCase.SkipToNextMusicUseCase
+import tm.app.musicplayer.domain.useCase.SkipToPreviousMusicUseCase
+import tm.app.musicplayer.ui.home.HomeViewModel
+import tm.app.musicplayer.ui.viewmodels.SharedViewModel
 
 val appModule = module {
-    single { ProvideSupabaseClient() }
-    single { ProvideSupabaseDatabase(get())}
-    single { ProvideSupabaseStorage(get()) }
-
-    singleOf(::MusicServiceImpl) bind MusicService::class
 
     single<MusicRepository> { MusicRepositoryImpl(get()) }
+    singleOf(::MusicControllerImpl)  bind MusicController::class
 
-    single { GetMusicUseCase(get()) }
+    single { GetAllMusicsUseCase(get()) }
+    single { AddMediaItemsUseCase(get()) }
+    single { DestroyMediaControllerUseCase(get()) }
+    single { GetCurrentMusicPositionUseCase(get()) }
+    single { PauseMusicUseCase(get()) }
+    single { PlayMusicUseCase(get()) }
+    single { ResumeMusicUseCase(get()) }
+    single { SeekMusicToPositionUseCase(get()) }
+    single { SetMediaControllerCallbackUseCase(get()) }
+    single { SkipToNextMusicUseCase(get()) }
+    single { SkipToPreviousMusicUseCase(get()) }
 
-    viewModelOf(::BrowseMusicViewModel)
+    viewModelOf(::HomeViewModel)
+    viewModelOf(::SharedViewModel)
 }
