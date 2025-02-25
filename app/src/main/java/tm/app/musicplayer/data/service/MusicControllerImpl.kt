@@ -69,7 +69,7 @@ class MusicControllerImpl(context: Context) : MusicController {
     override fun addMediaItems(musics: List<Music>) {
         val mediaItems = musics.map {
             MediaItem.Builder()
-                .setMediaId(it.songUrl)
+                .setMediaId(it.id.toString())
                 .setUri(it.songUrl)
                 .setMediaMetadata(
                     MediaMetadata.Builder()

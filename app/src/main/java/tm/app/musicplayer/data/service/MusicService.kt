@@ -30,7 +30,7 @@ class MusicService: MediaSessionService() {
         // Initialize MediaSession (MediaSessionConnector is no longer needed)
         mediaSession = MediaSession.Builder(this, exoPlayer)
 //            .setSessionActivity(activityIntent) // Set the app launch intent
-            .setCallback(MediaSessionCallback())
+//            .setCallback(MediaSessionCallback())
             .build()
 
     }
@@ -49,18 +49,18 @@ class MusicService: MediaSessionService() {
         super.onDestroy()
     }
 
-    private inner class MediaSessionCallback: MediaSession.Callback {
-        override fun onAddMediaItems(
-            mediaSession: MediaSession,
-            controller: MediaSession.ControllerInfo,
-            mediaItems: MutableList<MediaItem>
-        ): ListenableFuture<MutableList<MediaItem>> {
-            val updatedMediaItems = mediaItems.map {
-                it.buildUpon().setUri(it.mediaId).build()
-            }.toMutableList()
-
-            return Futures.immediateFuture(updatedMediaItems)
-        }
-    }
+//    private inner class MediaSessionCallback: MediaSession.Callback {
+//        override fun onAddMediaItems(
+//            mediaSession: MediaSession,
+//            controller: MediaSession.ControllerInfo,
+//            mediaItems: MutableList<MediaItem>
+//        ): ListenableFuture<MutableList<MediaItem>> {
+//            val updatedMediaItems = mediaItems.map {
+//                it.buildUpon().setUri(it.mediaId).build()
+//            }.toMutableList()
+//
+//            return Futures.immediateFuture(updatedMediaItems)
+//        }
+//    }
 
 }
