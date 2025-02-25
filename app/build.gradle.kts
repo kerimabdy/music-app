@@ -102,9 +102,12 @@ dependencies {
     // Koin for Dependency Injection
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
-
     implementation(libs.koin.androidx.compose.navigation)
 
+    implementation(libs.androidx.navigation.compose)
+
+
     implementation("io.coil-kt.coil3:coil-compose:3.1.0")
+    implementation("androidx.palette:palette-ktx:1.0.0")
 
 }

@@ -1,6 +1,7 @@
 [versions]
 agp = "8.8.0"
 ktorUtils = "3.1.0"
+navigationCompose = "2.8.7"
 supabase_verstion = "3.1.1"
 koinVersion = "4.0.1"
 kotlin = "2.0.0"
@@ -23,6 +24,7 @@ androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", versi
 androidx-media3-exoplayer-dash = { module = "androidx.media3:media3-exoplayer-dash", version.ref = "media3Exoplayer" }
 androidx-media3-session = { module = "androidx.media3:media3-session", version.ref = "media3Exoplayer" }
 androidx-media3-ui = { module = "androidx.media3:media3-ui", version.ref = "media3Exoplayer" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 ktor-utils = { module = "io.ktor:ktor-utils", version.ref = "ktorUtils" }
 storage-kt = { module = "io.github.jan-tennert.supabase:storage-kt", version.ref = "supabase_verstion" }
 supabase-bom = { module = "io.github.jan-tennert.supabase:bom", version.ref = "supabase_verstion" }
