@@ -20,6 +20,7 @@ import tm.app.musicplayer.domain.useCase.SetMediaControllerCallbackUseCase
 import tm.app.musicplayer.domain.useCase.SkipToNextMusicUseCase
 import tm.app.musicplayer.domain.useCase.SkipToPreviousMusicUseCase
 import tm.app.musicplayer.ui.home.HomeViewModel
+import tm.app.musicplayer.ui.musicscreen.MusicViewModel
 import tm.app.musicplayer.ui.viewmodels.SharedViewModel
 
 val appModule = module {
@@ -40,5 +41,6 @@ val appModule = module {
     single { SkipToPreviousMusicUseCase(get()) }
 
     viewModelOf(::HomeViewModel)
+    viewModelOf(::MusicViewModel)
     viewModelOf(::SharedViewModel)
 }

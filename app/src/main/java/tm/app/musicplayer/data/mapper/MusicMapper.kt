@@ -10,9 +10,9 @@ fun MusicResponse.toDomain(): Music {
 
 fun MediaItem.toMusic() =
     Music(
-        id = null,
+        id = mediaId.toInt(),
         name = mediaMetadata.title.toString(),
         artist = mediaMetadata.subtitle.toString(),
-        songUrl = mediaId,
+        songUrl = localConfiguration?.uri.toString(),
         thumbnailUrl = mediaMetadata.artworkUri.toString(),
     )

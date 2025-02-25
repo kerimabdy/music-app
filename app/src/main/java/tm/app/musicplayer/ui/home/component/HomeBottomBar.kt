@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,11 +31,13 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -73,43 +76,28 @@ fun HomeBottomBar(
         visible = playerState != PlayerState.STOPPED,
         modifier = modifier
     ) {
-        if (state.musics != null) {
+        if (state.musics != null && state.musics!!.isNotEmpty()) {
+            val pagerState = rememberPagerState(pageCount = {
+                state.musics!!.size
+            })
+
+            LaunchedEffect(pagerState) {
+                snapshotFlow { pagerState.settledPage }.collect { page ->
+                    onEvent(HomeEvent.OnMusicSelected(state.musics!![page]))
+                    onEvent(HomeEvent.PlayMusic(page))
+                }
+            }
+
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .pointerInput(Unit) {
-                        detectDragGestures(
-                            onDragEnd = {
-                                when {
-                                    offsetX > 0 -> {
-                                        onEvent(HomeEvent.SkipToPreviousMusic)
-                                    }
-
-                                    offsetX < 0 -> {
-                                        onEvent(HomeEvent.SkipToNextMusic)
-                                    }
-                                }
-                            },
-                            onDrag = { change, dragAmount ->
-                                change.consume()
-                                val (x, _) = dragAmount
-                                offsetX = x
-                            }
-                        )
-
-                    }
-                    .background(
-                        if (!isSystemInDarkTheme()) {
-                            Color.LightGray
-                        } else Color.DarkGray
-                    ),
+                    .navigationBarsPadding()
+                    .background(MaterialTheme.colorScheme.background),
             ) {
-                val pagerState = rememberPagerState(pageCount = {
-                    state.musics!!.size
-                })
                 HorizontalPager(
                     state = pagerState,
-                    contentPadding = PaddingValues(horizontal = 16.dp),
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                 ) { pageIdx ->
                     HomeBottomBarItem(
                         music = state.musics!![pageIdx],
