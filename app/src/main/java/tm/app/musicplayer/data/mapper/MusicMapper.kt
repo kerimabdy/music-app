@@ -8,11 +8,13 @@ fun MusicResponse.toDomain(): Music {
     return Music(id, name, artist, songUrl, thumbnailUrl)
 }
 
-fun MediaItem.toMusic() =
-    Music(
-        id = mediaId.toInt(),
-        name = mediaMetadata.title.toString(),
-        artist = mediaMetadata.subtitle.toString(),
-        songUrl = localConfiguration?.uri.toString(),
-        thumbnailUrl = mediaMetadata.artworkUri.toString(),
+fun MediaItem.toMusic(): Music {
+    val metadata = this.mediaMetadata
+    return Music(
+        id = this.mediaId.toIntOrNull() ?: -1, // Convert MediaItem ID (String) back to Int
+        title = metadata.title?.toString() ?: "Unknown Title",
+        artist = metadata.artist?.toString() ?: "Unknown Artist",
+        url = this.localConfiguration?.uri.toString(), // Extract URI
+        thumbnailUrl = metadata.artworkUri?.toString() ?: ""
     )
+}

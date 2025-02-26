@@ -77,7 +77,7 @@ fun MusicItem(
                     .crossfade(true)
                     .build(),
                 placeholder = painterResource(R.drawable.ic_launcher_background),
-                contentDescription = music.name,
+                contentDescription = music.title,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .clip(RoundedCornerShape(12.dp))
@@ -103,7 +103,7 @@ fun MusicItem(
                     .padding(horizontal = 8.dp),
             ) {
                 Text(
-                    music.name,
+                    music.title,
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -146,9 +146,9 @@ fun MusicItemPreview() {
         onClick = {},
         music = Music(
             id = 1,
-            name = "Music 1",
+            title = "Music 1",
             artist = "Artist name",
-            songUrl = "song",
+            url = "song",
             thumbnailUrl = "thumbnail"
         ),
     )

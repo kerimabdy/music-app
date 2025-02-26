@@ -238,7 +238,7 @@ fun MusicScreenContent(
                         }
 
                         Text(
-                            text = music.name,
+                            text = music.title,
                             style = MaterialTheme.typography.titleLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                             maxLines = 1,

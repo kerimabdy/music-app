@@ -144,7 +144,7 @@ fun HomeBottomBarItem(
         ) {
             Image(
                 painter = rememberAsyncImagePainter(music.thumbnailUrl),
-                contentDescription = music.name,
+                contentDescription = music.title,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .clip(RoundedCornerShape(12.dp))
@@ -158,7 +158,7 @@ fun HomeBottomBarItem(
                     .padding(horizontal = 8.dp),
             ) {
                 Text(
-                    music.name,
+                    music.title,
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.background,
                     maxLines = 1,
@@ -221,23 +221,23 @@ fun HomeBottomBarPreview() {
                 musics = listOf(
                     Music(
                         id = 1,
-                        name = "Music 1",
+                        title = "Music 1",
                         artist = "Artist name",
-                        songUrl = "song",
+                        url = "song",
                         thumbnailUrl = "thumbnail"
                     ),
                     Music(
                         id = 2,
-                        name = "Music 2",
+                        title = "Music 2",
                         artist = "Artist name",
-                        songUrl = "song",
+                        url = "song",
                         thumbnailUrl = "thumbnail"
                     ),
                     Music(
                         id = 3,
-                        name = "Music 3",
+                        title = "Music 3",
                         artist = "Artist name",
-                        songUrl = "song",
+                        url = "song",
                         thumbnailUrl = "thumbnail"
                     )
                 ),
@@ -255,9 +255,9 @@ fun HomeBottomBarItemPreview() {
         playerState = PlayerState.PAUSED,
         music = Music(
             id = 1,
-            name = "Music anme",
+            title = "Music anme",
             artist = "Artist name",
-            songUrl = "song",
+            url = "song",
             thumbnailUrl = "thumbnail"
         ),
         onBarClick = {  },

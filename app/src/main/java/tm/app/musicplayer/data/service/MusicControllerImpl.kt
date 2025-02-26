@@ -70,10 +70,10 @@ class MusicControllerImpl(context: Context) : MusicController {
         val mediaItems = musics.map {
             MediaItem.Builder()
                 .setMediaId(it.id.toString())
-                .setUri(it.songUrl)
+                .setUri(it.url)
                 .setMediaMetadata(
                     MediaMetadata.Builder()
-                        .setTitle(it.name)
+                        .setTitle(it.title)
                         .setSubtitle(it.artist)
                         .setArtist(it.artist)
                         .setArtworkUri(Uri.parse(it.thumbnailUrl))
