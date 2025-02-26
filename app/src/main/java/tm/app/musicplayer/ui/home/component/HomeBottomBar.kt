@@ -83,8 +83,8 @@ fun HomeBottomBar(
 
             LaunchedEffect(pagerState) {
                 snapshotFlow { pagerState.settledPage }.collect { page ->
-                    onEvent(HomeEvent.OnMusicSelected(state.musics!![page]))
-                    onEvent(HomeEvent.PlayMusic(page))
+//                    onEvent(HomeEvent.OnMusicSelected(state.musics!![page]))
+//                    onEvent(HomeEvent.PlayMusic(page))
                 }
             }
 
