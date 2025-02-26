@@ -108,6 +108,7 @@ dependencies {
 
 
     implementation("io.coil-kt.coil3:coil-compose:3.1.0")
+    implementation("io.coil-kt.coil3:coil-network-ktor3:3.1.0")
     implementation("androidx.palette:palette-ktx:1.0.0")
 
 }
