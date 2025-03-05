@@ -83,7 +83,7 @@ fun MusicItem(
                     .padding(horizontal = 14.dp),
             ) {
                 Text(
-                    music.title,
+                    music.title!!,
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,

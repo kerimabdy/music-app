@@ -5,10 +5,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class MusicResponse(
-    val id: Int,
+    val id: Int = 0,
     @SerialName("created_at")
-    val createdAt: String,
-    val name: String = "",
+    val createdAt: String = "",
+    val name: String?,
     @SerialName("singer")
     val artist: String = "",
     val songUrl: String = "",

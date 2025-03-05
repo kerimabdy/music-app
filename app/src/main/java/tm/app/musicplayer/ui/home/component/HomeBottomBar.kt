@@ -158,7 +158,7 @@ fun HomeBottomBarItem(
                     .padding(horizontal = 8.dp),
             ) {
                 Text(
-                    music.title,
+                    music.title!!,
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.background,
                     maxLines = 1,

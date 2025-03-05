@@ -3,6 +3,7 @@ package tm.app.musicplayer.data.service
 import android.content.ComponentName
 import android.content.Context
 import android.net.Uri
+import android.os.Bundle
 import android.util.Log
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
@@ -81,12 +82,26 @@ class MusicControllerImpl(context: Context) : MusicController {
                 )
                 .build()
         }
+    }
 
-        Log.d("MusicInMediaItems", mediaItems.toString())
-        mediaController?.setMediaItems(mediaItems)
-
-        Log.d("AfterMediaControl", "added media items")
-
+    fun addPlaylist(musics: List<Music>, playlistId: String) {
+        val mediaItems = musics.map {
+            MediaItem.Builder()
+                .setMediaId(it.id.toString())
+                .setUri(it.url)
+                .setMediaMetadata(
+                    MediaMetadata.Builder()
+                        .setTitle(it.title)
+                        .setSubtitle(it.artist)
+                        .setArtist(it.artist)
+                        .setArtworkUri(Uri.parse(it.thumbnailUrl))
+                        .setExtras( Bundle().apply {
+                            putString("playlistID", playlistId)
+                        })
+                        .build()
+                )
+                .build()
+        }
     }
 
     override fun play(mediaItemIndex: Int) {
