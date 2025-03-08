@@ -143,7 +143,7 @@ fun HomeBottomBarItem(
 
         ) {
             Image(
-                painter = rememberAsyncImagePainter(music.thumbnailUrl),
+                painter = rememberAsyncImagePainter(music.thumbnail),
                 contentDescription = music.title,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -224,21 +224,21 @@ fun HomeBottomBarPreview() {
                         title = "Music 1",
                         artist = "Artist name",
                         url = "song",
-                        thumbnailUrl = "thumbnail"
+                        thumbnail = "thumbnail"
                     ),
                     Music(
                         id = 2,
                         title = "Music 2",
                         artist = "Artist name",
                         url = "song",
-                        thumbnailUrl = "thumbnail"
+                        thumbnail = "thumbnail"
                     ),
                     Music(
                         id = 3,
                         title = "Music 3",
                         artist = "Artist name",
                         url = "song",
-                        thumbnailUrl = "thumbnail"
+                        thumbnail = "thumbnail"
                     )
                 ),
             )
@@ -258,7 +258,7 @@ fun HomeBottomBarItemPreview() {
             title = "Music anme",
             artist = "Artist name",
             url = "song",
-            thumbnailUrl = "thumbnail"
+            thumbnail = "thumbnail"
         ),
         onBarClick = {  },
         background = Color.Gray
