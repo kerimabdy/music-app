@@ -1,10 +1,12 @@
 package tm.app.musicplayer.data.remote
 
 import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.postgrest.query.Columns
 import io.ktor.client.plugins.HttpRequestTimeoutException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import kotlinx.io.IOException
 import kotlinx.serialization.SerializationException
@@ -18,39 +20,71 @@ import tm.app.musicplayer.other.Resource
 class MusicRemoteDatabaseImpl(
     private val postgrest: Postgrest
 ): MusicRemoteDatabase {
-    override suspend fun getAllMusics(): Resource<List<Music>> = withContext(Dispatchers.IO) {
-        try {
-            val result = postgrest.from(SupabaseTables.SONGS)
+    override suspend fun getAllMusics(): Flow<Resource<List<Music>>> = flow {
+        emit(Resource.Loading())
+
+        runCatching {
+            postgrest.from(SupabaseTables.SONGS)
                 .select()
                 .decodeList<MusicResponse>()
                 .map { it.toDomain() }
-            Resource.Success(result)
-        } catch (e: IOException) {
-            Resource.Error(e.message ?: "Unknown error") // Network-related error
-        } catch (e: SerializationException) {
-            Resource.Error(e.message ?: "Unknown error")  // JSON parsing error
-        } catch (e: Exception) {
-            Resource.Error(e.message ?: "Unknown error")  // Catch-all for other errors
+        }.onSuccess {
+            emit(Resource.Success(it))
+        }.onFailure {
+            when (it) {
+                is IOException -> emit(Resource.Error(it.message ?: "Unknown IOException")) // Network-related error
+                is SerializationException -> emit(Resource.Error(it.message ?: "Unknown SerializationException"))
+                else -> emit(Resource.Error(it.message ?: "Unknown error"))
+            }
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
-    override suspend fun getAllPlaylist(): Flow<Resource<List<Playlist>>> = flow {
+    override suspend fun getAllMusicPlaylists(): Flow<Resource<List<Playlist>>> = flow {
         emit(Resource.Loading())
 
-        try {
-            val result = postgrest.from(SupabaseTables.PLAYLIST)
+        runCatching {
+            postgrest.from(SupabaseTables.PLAYLIST)
+                .select(
+                    Columns.raw("""
+                            id, 
+                            name, 
+                            cover,
+                            playlist_song_many_to_many(
+                                    song(
+                                    id
+                                    )
+                                    )
+                        """.trimIndent())
+                )
+                .decodeList<PlaylistResponse>()
+                .map { it.toDomain() }
+        }.onSuccess {
+            emit(Resource.Success(it))
+        }.onFailure {
+            when (it) {
+                is IOException -> emit(Resource.Error(it.message ?: "Unknown IOException")) // Network-related error
+                is SerializationException -> emit(Resource.Error(it.message ?: "Unknown SerializationException"))
+                else -> emit(Resource.Error(it.message ?: "Unknown error"))
+            }
+        }
+    }.flowOn(Dispatchers.IO)
+
+    override suspend fun getMusicPlaylistById(id: Int): Flow<Resource<Playlist>> = flow {
+        emit(Resource.Loading())
+
+        runCatching {
+            postgrest.from(SupabaseTables.PLAYLIST)
                 .select()
                 .decodeList<PlaylistResponse>()
-//                .map { it.toDomain() }
-            Resource.Success(result)
-        } catch (e: IOException) {
-            Resource.Error(e.message ?: "Unknown error") // Network-related error
-        } catch (e: HttpRequestTimeoutException) {
-            Resource.Error(e.message ?: "Unknown error") // Network-related error
-        } catch (e: SerializationException) {
-            Resource.Error(e.message ?: "Unknown error")  // JSON parsing error
-        } catch (e: Exception) {
-            Resource.Error(e.message ?: "Unknown error")  // Catch-all for other errors
+                .get(0).toDomain()
+        }.onSuccess {
+            emit(Resource.Success(it))
+        }.onFailure {
+            when (it) {
+                is IOException -> emit(Resource.Error(it.message ?: "Unknown IOException")) // Network-related error
+                is SerializationException -> emit(Resource.Error(it.message ?: "Unknown SerializationException"))
+                else -> emit(Resource.Error(it.message ?: "Unknown error"))
+            }
         }
-    }
+    }.flowOn(Dispatchers.IO)
 }

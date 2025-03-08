@@ -16,6 +16,7 @@ import tm.app.musicplayer.data.mapper.toMusic
 import tm.app.musicplayer.domain.model.Music
 import tm.app.musicplayer.domain.service.MusicController
 import tm.app.musicplayer.other.PlayerState
+import androidx.core.net.toUri
 
 class MusicControllerImpl(context: Context) : MusicController {
 
@@ -77,7 +78,7 @@ class MusicControllerImpl(context: Context) : MusicController {
                         .setTitle(it.title)
                         .setSubtitle(it.artist)
                         .setArtist(it.artist)
-                        .setArtworkUri(Uri.parse(it.thumbnailUrl))
+                        .setArtworkUri(it.thumbnail.toUri())
                         .build()
                 )
                 .build()
@@ -94,7 +95,7 @@ class MusicControllerImpl(context: Context) : MusicController {
                         .setTitle(it.title)
                         .setSubtitle(it.artist)
                         .setArtist(it.artist)
-                        .setArtworkUri(Uri.parse(it.thumbnailUrl))
+                        .setArtworkUri(it.thumbnail.toUri())
                         .setExtras( Bundle().apply {
                             putString("playlistID", playlistId)
                         })

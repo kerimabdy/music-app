@@ -39,6 +39,7 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import tm.app.musicplayer.R
 import tm.app.musicplayer.domain.model.Music
+import androidx.core.net.toUri
 
 
 @Composable
@@ -65,7 +66,7 @@ fun MusicItem(
 
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(Uri.parse(music.thumbnailUrl))
+                    .data(music.thumbnail.toUri())
                     .crossfade(true)
                     .build(),
                 placeholder = painterResource(R.drawable.ic_launcher_background),
@@ -129,7 +130,7 @@ fun MusicItemPreview() {
             title = "Music 1",
             artist = "Artist name",
             url = "song",
-            thumbnailUrl = "thumbnail"
+            thumbnail = "thumbnail"
         ),
     )
 }

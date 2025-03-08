@@ -10,8 +10,10 @@ import tm.app.musicplayer.domain.repository.MusicRepository
 import tm.app.musicplayer.domain.service.MusicController
 import tm.app.musicplayer.domain.useCase.AddMediaItemsUseCase
 import tm.app.musicplayer.domain.useCase.DestroyMediaControllerUseCase
+import tm.app.musicplayer.domain.useCase.GetAllMusicPlaylistsUseCase
 import tm.app.musicplayer.domain.useCase.GetAllMusicsUseCase
 import tm.app.musicplayer.domain.useCase.GetCurrentMusicPositionUseCase
+import tm.app.musicplayer.domain.useCase.GetMusicPlaylistByIdUseCase
 import tm.app.musicplayer.domain.useCase.PauseMusicUseCase
 import tm.app.musicplayer.domain.useCase.PlayMusicUseCase
 import tm.app.musicplayer.domain.useCase.ResumeMusicUseCase
@@ -29,6 +31,9 @@ val appModule = module {
     singleOf(::MusicControllerImpl)  bind MusicController::class
 
     single { GetAllMusicsUseCase(get()) }
+    single { GetAllMusicPlaylistsUseCase(get()) }
+    single { GetMusicPlaylistByIdUseCase(get()) }
+
     single { AddMediaItemsUseCase(get()) }
     single { DestroyMediaControllerUseCase(get()) }
     single { GetCurrentMusicPositionUseCase(get()) }

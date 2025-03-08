@@ -9,13 +9,14 @@ data class PlaylistResponse(
     val name: String,
     val cover: String,
     @SerialName("playlist_song_many_to_many")
-    val playlistSongs: List<PlaylistSongManyToMany>
+    val playlistMusics: List<PlaylistMusicManyToMany>
 ) {
-    val songCount: Int = playlistSongs.size
+    val musicCount: Int = playlistMusics.size
 }
 
 
 @Serializable
-data class PlaylistSongManyToMany(
-    val song: MusicResponse
+data class PlaylistMusicManyToMany(
+    @SerialName("song")
+    val music: MusicResponse
 )

@@ -20,7 +20,7 @@ import tm.app.musicplayer.domain.useCase.SkipToPreviousMusicUseCase
 import tm.app.musicplayer.other.Resource
 
 class HomeViewModel(
-    private val getMusicUseCase: GetAllMusicsUseCase,
+    private val getAllMusicUseCase: GetAllMusicsUseCase,
     private val addMediaItemsUseCase: AddMediaItemsUseCase,
     private val playMusicUseCase: PlayMusicUseCase,
     private val pauseMusicUseCase: PauseMusicUseCase,
@@ -44,36 +44,39 @@ class HomeViewModel(
     }
 
     private fun getMusic() {
-        homeUiState.update { it.copy(loading = true) }
 
         viewModelScope.launch {
-            when (val result = getMusicUseCase()) {
-                is Resource.Success -> {
-                    result.data?.let { musics ->
-                        Log.d("SongInViewModel", musics.toString())
-                        addMediaItemsUseCase(musics)
+            getAllMusicUseCase.invoke().collect { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        result.data?.let { musics ->
+                            Log.d("SongInViewModel", musics.toString())
+                            addMediaItemsUseCase(musics)
+                        }
+                        homeUiState.update { it.copy(
+                            loading = false,
+                            errorMessage = null,
+                            musics = result.data
+                        ) }
                     }
-                    homeUiState.update { it.copy(
-                        loading = false,
-                        errorMessage = null,
-                        musics = result.data
-                    ) }
-                }
-                is Resource.Loading -> {
-                    homeUiState.update { it.copy(
-                        loading = true,
-                        errorMessage = null
-                    )
-                }
-                }
-                is Resource.Error -> {
-                    homeUiState.update { it.copy(
-                        loading = false,
-                        errorMessage = result.message
-                    )
+                    is Resource.Loading -> {
+                        homeUiState.update { it.copy(
+                            loading = true,
+                            errorMessage = null
+                        )
+                        }
+                    }
+                    is Resource.Error -> {
+                        homeUiState.update { it.copy(
+                            loading = false,
+                            errorMessage = result.message
+                        )
+                        }
                     }
                 }
             }
+
+
         }
     }
 

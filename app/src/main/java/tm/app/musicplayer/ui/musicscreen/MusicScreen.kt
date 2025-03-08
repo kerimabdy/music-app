@@ -104,7 +104,7 @@ fun MusicScreenBody(
     val context = LocalContext.current
 
     val imagePainter = rememberAsyncImagePainter(
-        model = ImageRequest.Builder(context).data(music.thumbnailUrl).crossfade(true).build()
+        model = ImageRequest.Builder(context).data(music.thumbnail).crossfade(true).build()
     )
 
     val iconResId =

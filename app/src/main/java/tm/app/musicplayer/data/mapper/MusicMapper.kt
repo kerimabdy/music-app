@@ -5,7 +5,7 @@ import tm.app.musicplayer.data.remote.dto.MusicResponse
 import tm.app.musicplayer.domain.model.Music
 
 fun MusicResponse.toDomain(): Music {
-    return Music(id, name, artist, songUrl, thumbnailUrl)
+    return Music(id, title, artist, url, thumbnail)
 }
 
 fun MediaItem.toMusic(): Music {
@@ -15,6 +15,6 @@ fun MediaItem.toMusic(): Music {
         title = metadata.title?.toString() ?: "Unknown Title",
         artist = metadata.artist?.toString() ?: "Unknown Artist",
         url = this.localConfiguration?.uri.toString(), // Extract URI
-        thumbnailUrl = metadata.artworkUri?.toString() ?: ""
+        thumbnail = metadata.artworkUri?.toString() ?: ""
     )
 }

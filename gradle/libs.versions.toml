@@ -1,5 +1,5 @@
 [versions]
-agp = "8.8.0"
+agp = "8.9.0"
 ktorUtils = "3.1.0"
 navigationCompose = "2.8.7"
 supabase_verstion = "3.1.1"

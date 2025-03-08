@@ -1,7 +1,7 @@
 package tm.app.musicplayer.data.mapper
 
 import tm.app.musicplayer.data.remote.dto.PlaylistResponse
-import tm.app.musicplayer.data.remote.dto.PlaylistSongManyToMany
+import tm.app.musicplayer.data.remote.dto.PlaylistMusicManyToMany
 import tm.app.musicplayer.domain.model.Music
 import tm.app.musicplayer.domain.model.Playlist
 
@@ -10,17 +10,17 @@ fun PlaylistResponse.toDomain(): Playlist {
         id = id,
         name = name,
         isCurated = true,
-        musics = playlistSongs.map { it.toDomain() },
-        musicsCount = songCount
+        musics = playlistMusics.map { it.toDomain() },
+        musicsCount = musicCount
     )
 }
 
-fun PlaylistSongManyToMany.toDomain(): Music {
+fun PlaylistMusicManyToMany.toDomain(): Music {
     return Music(
-        id = song.id,
-        title = song.name,
-        artist = song.artist,
-        thumbnailUrl = song.thumbnailUrl,
-        url = song.songUrl
+        id = music.id,
+        title = music.title,
+        artist = music.artist,
+        thumbnail = music.thumbnail,
+        url = music.url
     )
 }

@@ -8,9 +8,8 @@ data class MusicResponse(
     val id: Int = 0,
     @SerialName("created_at")
     val createdAt: String = "",
-    val name: String?,
-    @SerialName("singer")
+    val title: String = "",
     val artist: String = "",
-    val songUrl: String = "",
-    val thumbnailUrl: String = ""
+    val url: String = "",
+    val thumbnail: String = ""
 )
