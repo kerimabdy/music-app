@@ -5,8 +5,12 @@ import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.exoplayer.ExoPlayer
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
-import tm.app.musicplayer.data.service.MusicService
+import tm.app.musicplayer.domain.service.MusicController
+import tm.app.musicplayer.exoplayer.MusicControllerImpl
+import tm.app.musicplayer.exoplayer.MusicService
 
 val serviceModule = module {
     scope<MusicService> {
@@ -31,4 +35,6 @@ val serviceModule = module {
             DefaultDataSource.Factory(context)
         }
     }
+
+    singleOf(::MusicControllerImpl)  bind MusicController::class
 }

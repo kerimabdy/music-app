@@ -1,4 +1,4 @@
-package tm.app.musicplayer.data.service
+package tm.app.musicplayer.exoplayer
 
 import android.app.PendingIntent
 import android.content.Intent

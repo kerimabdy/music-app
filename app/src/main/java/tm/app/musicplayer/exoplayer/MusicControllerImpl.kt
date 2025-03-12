@@ -1,10 +1,8 @@
-package tm.app.musicplayer.data.service
+package tm.app.musicplayer.exoplayer
 
 import android.content.ComponentName
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
@@ -18,7 +16,9 @@ import tm.app.musicplayer.domain.service.MusicController
 import tm.app.musicplayer.other.PlayerState
 import androidx.core.net.toUri
 
-class MusicControllerImpl(context: Context) : MusicController {
+class MusicControllerImpl(
+    context: Context,
+) : MusicController {
 
     private var mediaControllerFuture: ListenableFuture<MediaController>
     private val mediaController: MediaController?
@@ -83,6 +83,7 @@ class MusicControllerImpl(context: Context) : MusicController {
                 )
                 .build()
         }
+        mediaController?.setMediaItems(mediaItems)
     }
 
     fun addPlaylist(musics: List<Music>, playlistId: String) {
