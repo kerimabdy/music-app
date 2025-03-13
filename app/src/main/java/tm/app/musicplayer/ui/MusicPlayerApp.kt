@@ -22,6 +22,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import org.koin.androidx.compose.koinViewModel
+import tm.app.musicplayer.ui.home.TracksScreen
+import tm.app.musicplayer.ui.home.TracksViewModel
+import tm.app.musicplayer.ui.home.component.tm.app.musicplayer.ui.navigation.components.HomeBottomMediaBar
 import tm.app.musicplayer.ui.navigation.components.HomeAppBar
 import tm.app.musicplayer.ui.navigation.Downloads
 import tm.app.musicplayer.ui.navigation.Packs
@@ -85,6 +88,13 @@ fun MusicPlayerApp(sharedViewModel: SharedViewModel) {
                     }
                 }
             }
+        },
+        bottomBar = {
+            HomeBottomMediaBar(
+                onEvent = sharedViewModel::onEvent,
+                onBarClick = {},
+                uiState = sharedViewModel.musicControllerUiState
+            )
         }
     ) { innerPadding ->
         MusicPlayerNavHost(
@@ -123,9 +133,12 @@ fun MusicPlayerNavHost(
             PacksScreen(modifier = modifier, uiState = packsViewModel.packsUiState)
         }
         composable<Tracks> {
-            Column(modifier = modifier)  {
-                Text("Tracks")
-            }
+            val tracksViewModel = koinViewModel<TracksViewModel>()
+            TracksScreen(
+                modifier = modifier,
+                uiState = tracksViewModel.tracksUiState,
+                onEvent = tracksViewModel::onEvent
+            )
         }
         composable<Downloads> {
             Column(modifier = modifier)  {
