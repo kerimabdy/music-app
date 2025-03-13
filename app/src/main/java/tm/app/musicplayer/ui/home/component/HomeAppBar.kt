@@ -9,6 +9,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -27,6 +29,9 @@ fun HomeAppBar(
     scrollBehavior: TopAppBarScrollBehavior? = null
 ) {
     TopAppBar(
+        colors = TopAppBarDefaults.topAppBarColors(
+            scrolledContainerColor = MaterialTheme.colorScheme.surface
+        ),
         scrollBehavior = scrollBehavior,
         modifier = Modifier.fillMaxWidth(),
         navigationIcon = {
