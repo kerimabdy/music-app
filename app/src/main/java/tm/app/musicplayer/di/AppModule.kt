@@ -1,13 +1,9 @@
 package tm.app.musicplayer.di
 
-import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
-import org.koin.dsl.bind
 import org.koin.dsl.module
 import tm.app.musicplayer.data.repository.MusicRepositoryImpl
-import tm.app.musicplayer.data.service.MusicControllerImpl
 import tm.app.musicplayer.domain.repository.MusicRepository
-import tm.app.musicplayer.domain.service.MusicController
 import tm.app.musicplayer.domain.useCase.AddMediaItemsUseCase
 import tm.app.musicplayer.domain.useCase.DestroyMediaControllerUseCase
 import tm.app.musicplayer.domain.useCase.GetAllMusicPlaylistsUseCase
@@ -23,12 +19,11 @@ import tm.app.musicplayer.domain.useCase.SkipToNextMusicUseCase
 import tm.app.musicplayer.domain.useCase.SkipToPreviousMusicUseCase
 import tm.app.musicplayer.ui.home.HomeViewModel
 import tm.app.musicplayer.ui.musicscreen.MusicViewModel
+import tm.app.musicplayer.ui.packs.PacksViewModel
 import tm.app.musicplayer.ui.viewmodels.SharedViewModel
 
 val appModule = module {
-
     single<MusicRepository> { MusicRepositoryImpl(get()) }
-    singleOf(::MusicControllerImpl)  bind MusicController::class
 
     single { GetAllMusicsUseCase(get()) }
     single { GetAllMusicPlaylistsUseCase(get()) }
@@ -43,8 +38,9 @@ val appModule = module {
     single { SeekMusicToPositionUseCase(get()) }
     single { SetMediaControllerCallbackUseCase(get()) }
     single { SkipToNextMusicUseCase(get()) }
-    single { SkipToPreviousMusicUseCase(get()) }
+    single { SkipToPreviousMusicUseCase(get())}
 
+    viewModelOf(::PacksViewModel)
     viewModelOf(::HomeViewModel)
     viewModelOf(::MusicViewModel)
     viewModelOf(::SharedViewModel)
