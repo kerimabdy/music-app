@@ -10,5 +10,6 @@ object SupabaseBuckets {
 }
 
 object SupabaseFunctions {
-    const val GETALLSONGS = "SELECT * from get_all_songs();"
+    const val GETALLSONGS = "get_all_songs"
+    const val GETALLPLAYLISTS = "get_all_playlists"
 }

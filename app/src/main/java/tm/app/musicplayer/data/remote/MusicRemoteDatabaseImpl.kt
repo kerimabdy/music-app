@@ -1,7 +1,6 @@
 package tm.app.musicplayer.data.remote
 
 import io.github.jan.supabase.postgrest.Postgrest
-import io.github.jan.supabase.postgrest.query.Columns
 import io.github.jan.supabase.storage.Storage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -10,6 +9,8 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.io.IOException
 import kotlinx.serialization.SerializationException
 import tm.app.musicplayer.data.mapper.toDomain
+import tm.app.musicplayer.data.remote.SupabaseFunctions.GETALLPLAYLISTS
+import tm.app.musicplayer.data.remote.SupabaseFunctions.GETALLSONGS
 import tm.app.musicplayer.data.remote.dto.MusicResponse
 import tm.app.musicplayer.data.remote.dto.PlaylistResponse
 import tm.app.musicplayer.domain.model.Music
@@ -25,12 +26,12 @@ class MusicRemoteDatabaseImpl(
         emit(Resource.Loading())
 
         runCatching {
-            postgrest.rpc("get_all_songs")
+            postgrest.rpc(GETALLSONGS)
                 .decodeList<MusicResponse>()
                 .map { it
                     .copy(
-                        url = storage.from(SupabaseBuckets.MUSICPLAYER).createSignedUrl( it.url, 100.days),
-                        thumbnail = storage.from(SupabaseBuckets.MUSICPLAYER).createSignedUrl(it.thumbnail, 100.days),
+                        url = storage.from(SupabaseBuckets.MUSICPLAYER).createSignedUrl( it.url, 1.days),
+                        thumbnail = storage.from(SupabaseBuckets.MUSICPLAYER).createSignedUrl(it.thumbnail, 1.days),
                     )
                     .toDomain()
                 }
@@ -49,21 +50,13 @@ class MusicRemoteDatabaseImpl(
         emit(Resource.Loading())
 
         runCatching {
-            postgrest.from(SupabaseTables.PLAYLIST)
-                .select(
-                    Columns.raw("""
-                            id, 
-                            name, 
-                            cover,
-                            playlist_song_many_to_many(
-                                    song(
-                                    id
-                                    )
-                                    )
-                        """.trimIndent())
-                )
+            postgrest.rpc(GETALLPLAYLISTS)
                 .decodeList<PlaylistResponse>()
-                .map { it.toDomain() }
+                .map { it
+                    .copy(
+                        cover = storage.from(SupabaseBuckets.MUSICPLAYER).createSignedUrl( it.cover, 1.days),
+                    )
+                    .toDomain() }
         }.onSuccess {
             emit(Resource.Success(it))
         }.onFailure {
