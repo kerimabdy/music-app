@@ -1,4 +1,4 @@
-package tm.app.musicplayer.exoplayer
+package tm.app.musicplayer.framework.exoplayer
 
 import android.content.ComponentName
 import android.content.Context

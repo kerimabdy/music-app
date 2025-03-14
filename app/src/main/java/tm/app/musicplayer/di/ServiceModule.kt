@@ -9,8 +9,8 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 import tm.app.musicplayer.domain.service.MusicController
-import tm.app.musicplayer.exoplayer.MusicControllerImpl
-import tm.app.musicplayer.exoplayer.MusicService
+import tm.app.musicplayer.framework.exoplayer.MusicControllerImpl
+import tm.app.musicplayer.framework.exoplayer.MusicService
 
 val serviceModule = module {
     scope<MusicService> {
