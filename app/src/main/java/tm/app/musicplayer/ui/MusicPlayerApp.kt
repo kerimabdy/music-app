@@ -1,6 +1,6 @@
 package tm.app.musicplayer.ui
 
-import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,17 +21,22 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navigation
 import org.koin.androidx.compose.koinViewModel
 import tm.app.musicplayer.ui.home.TracksScreen
 import tm.app.musicplayer.ui.home.TracksViewModel
 import tm.app.musicplayer.ui.home.component.tm.app.musicplayer.ui.navigation.components.HomeBottomMediaBar
 import tm.app.musicplayer.ui.navigation.components.HomeAppBar
 import tm.app.musicplayer.ui.navigation.Downloads
+import tm.app.musicplayer.ui.navigation.Home
+import tm.app.musicplayer.ui.navigation.PackContent
 import tm.app.musicplayer.ui.navigation.Packs
 import tm.app.musicplayer.ui.navigation.TopLevelRoute
 import tm.app.musicplayer.ui.navigation.Tracks
 import tm.app.musicplayer.ui.navigation.components.HomeTabItem
 import tm.app.musicplayer.ui.navigation.components.HomeTabRow
+import tm.app.musicplayer.ui.packcontent.PackContentScreen
+import tm.app.musicplayer.ui.packcontent.PackContentViewModel
 import tm.app.musicplayer.ui.packs.PacksScreen
 import tm.app.musicplayer.ui.packs.PacksViewModel
 import tm.app.musicplayer.ui.viewmodels.SharedViewModel
@@ -40,7 +45,8 @@ import tm.app.musicplayer.ui.viewmodels.SharedViewModel
 @Composable
 fun MusicPlayerApp(sharedViewModel: SharedViewModel) {
     val navController = rememberNavController()
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
+    val scrollBehavior =
+        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
     var selectedTabIndex by remember { mutableIntStateOf(0) }
 
     val topLevelRoutes = listOf(
@@ -54,37 +60,40 @@ fun MusicPlayerApp(sharedViewModel: SharedViewModel) {
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             Column {
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentDestination = navBackStackEntry?.destination
                 HomeAppBar(
                     scrollBehavior = scrollBehavior
                 )
-                HomeTabRow(
-                    selectedTabIndex = { selectedTabIndex }
+                AnimatedVisibility(
+                    visible = navBackStackEntry?.destination?.parent?.route == Home::class.qualifiedName
                 ) {
-                    val navBackStackEntry by navController.currentBackStackEntryAsState()
-                    val currentDestination = navBackStackEntry?.destination
-                    topLevelRoutes.forEachIndexed { index, topLevelRoute ->
-                        Log.d("DestinationNames", currentDestination?.route ?: "")
-                        Log.d("RouteNames", topLevelRoute.route::class.qualifiedName ?: "")
+                    HomeTabRow(
+                        selectedTabIndex = { selectedTabIndex }
+                    ) {
 
-                        HomeTabItem(
-                            label = topLevelRoute.name,
-                            onClick = {
-                                navController.navigate(topLevelRoute.route) {
-                                    // Pop up to the start destination of the graph to
-                                    // avoid building up a large stack of destinations
-                                    // on the back stack as users select items
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
+                        topLevelRoutes.forEachIndexed { index, topLevelRoute ->
+
+                            HomeTabItem(
+                                label = topLevelRoute.name,
+                                onClick = {
+                                    navController.navigate(topLevelRoute.route) {
+                                        // Pop up to the start destination of the graph to
+                                        // avoid building up a large stack of destinations
+                                        // on the back stack as users select items
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        // Avoid multiple copies of the same destination when
+                                        // reselecting the same item
+                                        launchSingleTop = true
+                                        // Restore state when reselecting a previously selected item
+                                        restoreState = true
                                     }
-                                    // Avoid multiple copies of the same destination when
-                                    // reselecting the same item
-                                    launchSingleTop = true
-                                    // Restore state when reselecting a previously selected item
-                                    restoreState = true
-                                }
-                            },
-                            isSelected =  currentDestination?.route == topLevelRoute.route::class.qualifiedName
-                        )
+                                },
+                                isSelected = currentDestination?.route == topLevelRoute.route::class.qualifiedName
+                            )
+                        }
                     }
                 }
             }
@@ -116,7 +125,7 @@ fun MusicPlayerNavHost(
     val musicControllerUiState = sharedViewModel.musicControllerUiState
     NavHost(
         navController = navController,
-        startDestination = Packs,
+        startDestination = Home,
 //        popExitTransition = {
 //            scaleOut(
 //                targetScale = 0.9f,
@@ -126,24 +135,40 @@ fun MusicPlayerNavHost(
 //        popEnterTransition = {
 //            EnterTransition.None
 //        },
-    ){
+    ) {
 
-        composable<Packs> {
-            val packsViewModel = koinViewModel<PacksViewModel>()
-            PacksScreen(modifier = modifier, uiState = packsViewModel.packsUiState)
-        }
-        composable<Tracks> {
-            val tracksViewModel = koinViewModel<TracksViewModel>()
-            TracksScreen(
-                modifier = modifier,
-                uiState = tracksViewModel.tracksUiState,
-                onEvent = tracksViewModel::onEvent
-            )
-        }
-        composable<Downloads> {
-            Column(modifier = modifier)  {
-                Text("Downloads")
+        navigation<Home>(startDestination = Packs) {
+            composable<Packs> {
+                val packsViewModel = koinViewModel<PacksViewModel>()
+                PacksScreen(
+                    modifier = modifier,
+                    uiState = packsViewModel.packsUiState,
+                    onNavigateToPackContent = { id -> navController.navigate(route = PackContent(id))
+                    }
+                )
             }
+            composable<Tracks> {
+                val tracksViewModel = koinViewModel<TracksViewModel>()
+                TracksScreen(
+                    modifier = modifier,
+                    uiState = tracksViewModel.tracksUiState,
+                    onEvent = tracksViewModel::onEvent
+                )
+            }
+            composable<Downloads> {
+                Column(modifier = modifier) {
+                    Text("Downloads")
+                }
+            }
+        }
+
+        composable<PackContent> { backStackEntry ->
+            val packContentViewModel = koinViewModel<PackContentViewModel>()
+            PackContentScreen(
+                modifier = modifier,
+                uiState = packContentViewModel.packContentUiState,
+                onEvent = packContentViewModel::onEvent,
+            )
         }
 //        composable<Home> {
 //            val mainViewModel = koinViewModel<HomeViewModel>()

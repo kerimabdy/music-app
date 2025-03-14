@@ -1,6 +1,8 @@
 package tm.app.musicplayer.data.remote
 
+import android.util.Log
 import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.postgrest.rpc
 import io.github.jan.supabase.storage.Storage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -9,8 +11,9 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.io.IOException
 import kotlinx.serialization.SerializationException
 import tm.app.musicplayer.data.mapper.toDomain
-import tm.app.musicplayer.data.remote.SupabaseFunctions.GETALLPLAYLISTS
-import tm.app.musicplayer.data.remote.SupabaseFunctions.GETALLSONGS
+import tm.app.musicplayer.data.remote.SupabaseFunctions.GET_ALL_PLAYLISTS
+import tm.app.musicplayer.data.remote.SupabaseFunctions.GET_ALL_SONGS
+import tm.app.musicplayer.data.remote.SupabaseFunctions.GET_PLAYLIST_WITH_SONGS
 import tm.app.musicplayer.data.remote.dto.MusicResponse
 import tm.app.musicplayer.data.remote.dto.PlaylistResponse
 import tm.app.musicplayer.domain.model.Music
@@ -26,12 +29,12 @@ class MusicRemoteDatabaseImpl(
         emit(Resource.Loading())
 
         runCatching {
-            postgrest.rpc(GETALLSONGS)
+            postgrest.rpc(GET_ALL_SONGS)
                 .decodeList<MusicResponse>()
                 .map { it
                     .copy(
-                        url = storage.from(SupabaseBuckets.MUSICPLAYER).createSignedUrl( it.url, 1.days),
-                        thumbnail = storage.from(SupabaseBuckets.MUSICPLAYER).createSignedUrl(it.thumbnail, 1.days),
+                        url = storage.from(SupabaseBuckets.MUSIC_PLAYER).createSignedUrl( it.url, 1.days),
+                        thumbnail = storage.from(SupabaseBuckets.MUSIC_PLAYER).createSignedUrl(it.thumbnail, 1.days),
                     )
                     .toDomain()
                 }
@@ -50,11 +53,11 @@ class MusicRemoteDatabaseImpl(
         emit(Resource.Loading())
 
         runCatching {
-            postgrest.rpc(GETALLPLAYLISTS)
+            postgrest.rpc(GET_ALL_PLAYLISTS)
                 .decodeList<PlaylistResponse>()
                 .map { it
                     .copy(
-                        cover = storage.from(SupabaseBuckets.MUSICPLAYER).createSignedUrl( it.cover, 1.days),
+                        cover = storage.from(SupabaseBuckets.MUSIC_PLAYER).createSignedUrl( it.cover, 1.days),
                     )
                     .toDomain() }
         }.onSuccess {
@@ -68,14 +71,25 @@ class MusicRemoteDatabaseImpl(
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getMusicPlaylistById(id: Int): Flow<Resource<Playlist>> = flow {
+    override suspend fun getPlaylistWithMusics(packId: Int): Flow<Resource<Playlist>> = flow {
         emit(Resource.Loading())
 
         runCatching {
-            postgrest.from(SupabaseTables.PLAYLIST)
-                .select()
-                .decodeList<PlaylistResponse>()
-                .get(0).toDomain()
+            postgrest.rpc(
+                GET_PLAYLIST_WITH_SONGS,
+                parameters = mapOf("playlist_id_param" to packId)
+            )
+                .decodeSingle<PlaylistResponse>().let { pack ->
+                    pack.copy(
+                        songs = pack.songs.map { song ->
+                            song.copy(
+                                thumbnail = storage.from(SupabaseBuckets.MUSIC_PLAYER).createSignedUrl( song.thumbnail, 1.days),
+                                url = storage.from(SupabaseBuckets.MUSIC_PLAYER).createSignedUrl( song.url, 1.days)
+
+                            )
+                        }
+                    )
+                }.toDomain()
         }.onSuccess {
             emit(Resource.Success(it))
         }.onFailure {

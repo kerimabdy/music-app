@@ -6,10 +6,11 @@ object SupabaseTables {
 }
 
 object SupabaseBuckets {
-    const val MUSICPLAYER = "Music%20Player"
+    const val MUSIC_PLAYER = "Music%20Player"
 }
 
 object SupabaseFunctions {
-    const val GETALLSONGS = "get_all_songs"
-    const val GETALLPLAYLISTS = "get_all_playlists"
+    const val GET_ALL_SONGS = "get_all_songs"
+    const val GET_ALL_PLAYLISTS = "get_all_playlists"
+    const val GET_PLAYLIST_WITH_SONGS = "get_playlist_with_songs"
 }

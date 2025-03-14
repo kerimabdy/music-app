@@ -9,7 +9,7 @@ import tm.app.musicplayer.domain.useCase.DestroyMediaControllerUseCase
 import tm.app.musicplayer.domain.useCase.GetAllMusicPlaylistsUseCase
 import tm.app.musicplayer.domain.useCase.GetAllMusicsUseCase
 import tm.app.musicplayer.domain.useCase.GetCurrentMusicPositionUseCase
-import tm.app.musicplayer.domain.useCase.GetMusicPlaylistByIdUseCase
+import tm.app.musicplayer.domain.useCase.GetPlaylistWithMusics
 import tm.app.musicplayer.domain.useCase.PauseMusicUseCase
 import tm.app.musicplayer.domain.useCase.PlayMusicUseCase
 import tm.app.musicplayer.domain.useCase.ResumeMusicUseCase
@@ -19,6 +19,7 @@ import tm.app.musicplayer.domain.useCase.SkipToNextMusicUseCase
 import tm.app.musicplayer.domain.useCase.SkipToPreviousMusicUseCase
 import tm.app.musicplayer.ui.home.TracksViewModel
 import tm.app.musicplayer.ui.musicscreen.MusicViewModel
+import tm.app.musicplayer.ui.packcontent.PackContentViewModel
 import tm.app.musicplayer.ui.packs.PacksViewModel
 import tm.app.musicplayer.ui.viewmodels.SharedViewModel
 
@@ -27,7 +28,7 @@ val appModule = module {
 
     single { GetAllMusicsUseCase(get()) }
     single { GetAllMusicPlaylistsUseCase(get()) }
-    single { GetMusicPlaylistByIdUseCase(get()) }
+    single { GetPlaylistWithMusics(get()) }
 
     single { AddMediaItemsUseCase(get()) }
     single { DestroyMediaControllerUseCase(get()) }
@@ -41,6 +42,7 @@ val appModule = module {
     single { SkipToPreviousMusicUseCase(get())}
 
     viewModelOf(::PacksViewModel)
+    viewModelOf(::PackContentViewModel)
     viewModelOf(::TracksViewModel)
     viewModelOf(::MusicViewModel)
     viewModelOf(::SharedViewModel)

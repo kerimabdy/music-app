@@ -19,7 +19,7 @@ class MusicRepositoryImpl(
         return musicRemoteDatabase.getAllMusicPlaylists()
     }
 
-    override suspend fun getMusicPlaylistById(id: Int): Flow<Resource<Playlist>> {
-        return musicRemoteDatabase.getMusicPlaylistById(id)
+    override suspend fun getPlaylistWithMusics(id: Int): Flow<Resource<Playlist>> {
+        return musicRemoteDatabase.getPlaylistWithMusics(id)
     }
 }

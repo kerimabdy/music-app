@@ -8,5 +8,5 @@ import tm.app.musicplayer.other.Resource
 interface MusicRepository {
     suspend fun getAllMusics(): Flow<Resource<List<Music>>>
     suspend fun getAllMusicPlaylists(): Flow<Resource<List<Playlist>>>
-    suspend fun getMusicPlaylistById(id: Int): Flow<Resource<Playlist>>
+    suspend fun getPlaylistWithMusics(id: Int): Flow<Resource<Playlist>>
 }

@@ -40,7 +40,8 @@ import tm.app.musicplayer.R
 @Composable
 fun PacksScreen(
     modifier: Modifier = Modifier,
-    uiState: StateFlow<PacksUiState>
+    uiState: StateFlow<PacksUiState>,
+    onNavigateToPackContent: (Int) -> Unit
 ) {
     val state by uiState.collectAsStateWithLifecycle()
 
@@ -69,13 +70,17 @@ fun PacksScreen(
 
         is PacksUiState.Success -> {
             LazyVerticalGrid(
-                modifier = modifier.padding(horizontal = 16.dp).clip(RoundedCornerShape(12.dp)),
+                modifier = modifier
+                    .padding(horizontal = 16.dp)
+                    .clip(RoundedCornerShape(12.dp)),
                 columns = GridCells.Fixed(2),
                 verticalArrangement = Arrangement.spacedBy(2.dp),
                 horizontalArrangement = Arrangement.spacedBy(2.dp),
             ) {
                 items((state as PacksUiState.Success).data) { item ->
                     PackItem(
+                        onNavigateToPackContent = onNavigateToPackContent,
+                        id = item.id,
                         item.name,
                         item.musicsCount,
                         cover = item.cover
@@ -89,20 +94,27 @@ fun PacksScreen(
 
 @Composable
 fun PackItem(
+    onNavigateToPackContent: (Int) -> Unit,
+    id: Int,
     name: String,
     musicsCount: Int,
-    cover: String
+    cover: String,
 ) {
 
     Surface(
+        onClick = { onNavigateToPackContent(id) },
         color = MaterialTheme.colorScheme.surfaceContainerHigh,
         shape = RoundedCornerShape(4.dp)
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth().padding(12.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp)
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth().padding(top = 4.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 4.dp)
             ) {
                 Text(
                     name,
@@ -115,7 +127,9 @@ fun PackItem(
                 )
             }
             Spacer(
-                modifier = Modifier.fillMaxWidth().height(12.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(12.dp)
             )
             Box() {
                 AsyncImage(
@@ -126,12 +140,19 @@ fun PackItem(
                     placeholder = painterResource(R.drawable.ic_launcher_background),
                     contentDescription = name,
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier.clip(CircleShape).fillMaxSize().aspectRatio(1f),
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .fillMaxSize()
+                        .aspectRatio(1f),
                 )
                 Spacer(
-                    modifier = Modifier.align(Alignment.Center).clip(CircleShape).size(20.dp).background(
-                        MaterialTheme.colorScheme.surfaceContainerHigh
-                    )
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .clip(CircleShape)
+                        .size(20.dp)
+                        .background(
+                            MaterialTheme.colorScheme.surfaceContainerHigh
+                        )
                 )
             }
         }

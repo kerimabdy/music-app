@@ -9,6 +9,6 @@ fun PlaylistResponse.toDomain(): Playlist {
         name = name,
         cover = cover,
         musicsCount = count,
-        musics = emptyList()
+        musics = songs.map { it.toDomain() }
     )
 }

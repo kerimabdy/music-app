@@ -12,10 +12,12 @@ object Tracks
 object Downloads
 
 @Serializable
-object Main
+object Home
 
 @Serializable
-object Home
+data class PackContent(val id: Int)
+
+
 
 @Serializable
 object MusicScreen

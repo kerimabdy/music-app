@@ -9,5 +9,6 @@ data class PlaylistResponse(
     val name: String,
     val cover: String,
     @SerialName("song_count")
-    val count: Int
+    val count: Int,
+    val songs: List<MusicResponse> = emptyList()
 )
