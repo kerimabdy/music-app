@@ -25,7 +25,7 @@ import androidx.navigation.navigation
 import org.koin.androidx.compose.koinViewModel
 import tm.app.musicplayer.ui.tracks.TracksScreen
 import tm.app.musicplayer.ui.tracks.TracksViewModel
-import tm.app.musicplayer.ui.tracks.component.tm.app.musicplayer.ui.navigation.components.HomeBottomMediaBar
+import tm.app.musicplayer.ui.navigation.components.HomeBottomMediaBar
 import tm.app.musicplayer.ui.navigation.components.HomeAppBar
 import tm.app.musicplayer.ui.navigation.Downloads
 import tm.app.musicplayer.ui.navigation.Home
