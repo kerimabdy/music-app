@@ -1,4 +1,4 @@
-package tm.app.musicplayer.ui.home
+package tm.app.musicplayer.ui.tracks
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,7 +23,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import tm.app.musicplayer.ui.common.MusicItem
 
-//@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TracksScreen(
     onEvent: (TracksEvent) -> Unit,

@@ -1,6 +1,4 @@
-package tm.app.musicplayer.ui.home
-
-import tm.app.musicplayer.domain.model.Music
+package tm.app.musicplayer.ui.tracks
 
 sealed interface TracksEvent {
     object FetchMusic: TracksEvent

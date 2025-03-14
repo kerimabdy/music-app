@@ -17,7 +17,7 @@ import tm.app.musicplayer.domain.useCase.SeekMusicToPositionUseCase
 import tm.app.musicplayer.domain.useCase.SetMediaControllerCallbackUseCase
 import tm.app.musicplayer.domain.useCase.SkipToNextMusicUseCase
 import tm.app.musicplayer.domain.useCase.SkipToPreviousMusicUseCase
-import tm.app.musicplayer.ui.home.TracksViewModel
+import tm.app.musicplayer.ui.tracks.TracksViewModel
 import tm.app.musicplayer.ui.musicscreen.MusicViewModel
 import tm.app.musicplayer.ui.packcontent.PackContentViewModel
 import tm.app.musicplayer.ui.packs.PacksViewModel

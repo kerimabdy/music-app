@@ -1,4 +1,4 @@
-package tm.app.musicplayer.ui.home
+package tm.app.musicplayer.ui.tracks
 
 import tm.app.musicplayer.domain.model.Music
 

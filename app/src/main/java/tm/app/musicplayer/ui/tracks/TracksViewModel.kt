@@ -1,12 +1,10 @@
-package tm.app.musicplayer.ui.home
+package tm.app.musicplayer.ui.tracks
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import tm.app.musicplayer.domain.model.Music
 import tm.app.musicplayer.domain.useCase.AddMediaItemsUseCase
 import tm.app.musicplayer.domain.useCase.GetAllMusicsUseCase
 import tm.app.musicplayer.domain.useCase.PlayMusicUseCase
