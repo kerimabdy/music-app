@@ -12,8 +12,6 @@ import tm.app.musicplayer.domain.useCase.AddMediaItemsUseCase
 import tm.app.musicplayer.domain.useCase.GetPlaylistWithMusics
 import tm.app.musicplayer.domain.useCase.PlayMusicUseCase
 import tm.app.musicplayer.other.Resource
-import tm.app.musicplayer.ui.home.component.tm.app.musicplayer.ui.packcontent.PackContentEvent
-import tm.app.musicplayer.ui.home.component.tm.app.musicplayer.ui.packcontent.PackContentUiState
 import tm.app.musicplayer.ui.navigation.PackContent
 
 class PackContentViewModel(

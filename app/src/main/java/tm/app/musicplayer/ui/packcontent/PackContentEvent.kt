@@ -1,4 +1,4 @@
-package tm.app.musicplayer.ui.home.component.tm.app.musicplayer.ui.packcontent
+package tm.app.musicplayer.ui.packcontent
 
 
 sealed interface PackContentEvent {

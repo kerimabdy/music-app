@@ -14,7 +14,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -28,8 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.StateFlow
 import tm.app.musicplayer.ui.common.MusicItem
-import tm.app.musicplayer.ui.home.component.tm.app.musicplayer.ui.packcontent.PackContentEvent
-import tm.app.musicplayer.ui.home.component.tm.app.musicplayer.ui.packcontent.PackContentUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
